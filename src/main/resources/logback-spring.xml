@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="LOG_HOME" value="~/workspace/erpMobile" />
+
+    <!-- 输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 输出到文件 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}${file.separator}current.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>
+                [%date{yyyy-MM-dd HH:mm:ss.SSS}] %X{logthreadId} %-5level %logger{80} %method  %line - %msg%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 将超过100KB的日志文件压缩，放到当日的日志文件夹中 -->
+            <fileNamePattern>${LOG_HOME}${file.separator}%d{yyyy-MM-dd}${file.separator}%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <maxFileSize>100KB</maxFileSize>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="file" />
+    </root>
+
+
+</configuration>
